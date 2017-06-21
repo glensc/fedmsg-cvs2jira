@@ -26,7 +26,7 @@ class CVS2JiraConsumer(fedmsg.consumers.FedmsgConsumer):
             # easy way out
             return
 
-        links = cvs2link(msg['body']['msg'])
+        links = api.getJiraLinks(msg['body']['msg'])
         jira = api.jira
         for issue in issues:
             issue = jira.issue(issue)

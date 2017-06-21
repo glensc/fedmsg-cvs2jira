@@ -36,7 +36,7 @@ jira = api.jira
 
 message = msg['body']['msg']['message']
 issues = api.getMatchedIssues(message)
-links = cvs2link(msg['body']['msg'])
+links = api.getJiraLinks(msg['body']['msg'])
 pprint(links)
 for issue in issues:
     issue = jira.issue(issue)
