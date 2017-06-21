@@ -13,7 +13,7 @@ class CVS2JiraConsumer(fedmsg.consumers.FedmsgConsumer):
     config_key = "cvs2jira_consumer_enabled"
 
     def __init__(self, hub):
-        super(fedmsg.consumers.FedmsgConsumer, self).__init__(hub)
+        super(CVS2JiraConsumer, self).__init__(hub)
 
         # I'm only interested in messages from CVS
         topic = self.hub.config.get('cvs2jira_topic')
