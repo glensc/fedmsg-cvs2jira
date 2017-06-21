@@ -17,7 +17,9 @@ msg = {
             u'old_rev': u'1.62',
             u'old_url': u'https://cvs.example.net/test/testing?view=markup&revision=1.62',
             u'url': u'https://cvs.example.net'}],
-            u'message': u'some very useful commit message, ED-13',
+            # add stuff to this issue:
+            # https://pycontribs.atlassian.net/browse/Z3E79A974A-4
+            u'message': u'some very useful commit message, Z3E79A974A-4, Z3E79A974A-4.',
             u'module': u'test',
             u'user': u'glen'
         },
@@ -29,12 +31,14 @@ msg = {
     'topic': u'net.ed.prod.cvs.commit'
 }
 
+api = JiraApi()
+jira = api.jira
+
+message = msg['body']['msg']['message']
+issues = api.getMatchedIssues(message)
 links = cvs2link(msg['body']['msg'])
-
-jira = JiraClient().getClient()
-# add stuff to this issue:
-# https://pycontribs.atlassian.net/browse/Z3E79A974A-4
-issue = jira.issue('Z3E79A974A-4')
-
-for link in links:
-    jira.add_simple_link(issue, link)
+pprint(links)
+for issue in issues:
+    issue = jira.issue(issue)
+    for link in links:
+        jira.add_simple_link(issue, link)

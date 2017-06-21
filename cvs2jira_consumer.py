@@ -18,16 +18,17 @@ class CVS2JiraConsumer(fedmsg.consumers.FedmsgConsumer):
         # I'm only interested in messages from CVS
         topic = self.hub.config.get('cvs2jira_topic')
 
-    def consume(self, message):
-        links = cvs2link(message['body']['msg'])
-        if not links:
+    def consume(self, msg):
+        message = msg['body']['msg']['message']
+        api = JiraApi()
+        issues = api.getMatchedIssues(message)
+        if not issues:
             # easy way out
             return
 
-        jira = JiraClient().getClient()
-        issue = jira.issue('Z3E79A974A-4')
-
-        from pprint import pprint
-        for link in links:
-            pprint(link)
-            jira.add_simple_link(issue, link)
+        links = cvs2link(msg['body']['msg'])
+        jira = api.jira
+        for issue in issues:
+            issue = jira.issue(issue)
+            for link in links:
+                jira.add_simple_link(issue, link)

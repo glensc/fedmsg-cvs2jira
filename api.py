@@ -1,11 +1,16 @@
 #!/usr/bin/python
 
-class JiraClient():
+import re
+import jira
+
+class JiraApi():
     # Default JIRA URL
     JIRA_URL = 'https://pycontribs.atlassian.net'
 
+    def __init__(self):
+        self.jira = self.getClient()
+
     def getClient(self):
-        import jira
         arguments = self.buildClientArguments()
         return jira.JIRA(**arguments)
 
@@ -24,6 +29,18 @@ class JiraClient():
                 env['JIRA_AUTH_PW'],
             )
         return args
+
+    def getMatchedIssues(self, message):
+        pattern = self.getJiraProjectPattern()
+        issues = list(set(pattern.findall(message)))
+        return issues
+
+    # get pattern for matching project keys
+    # project keys are fetched from JIRA
+    def getJiraProjectPattern(self):
+        projectKeys = [project.key for project in self.jira.projects()]
+        pattern = '(?P<issue>(?:%s)-\d+)' % '|'.join(projectKeys)
+        return re.compile(pattern)
 
 # convert cvs commit payload from fedmsg
 # to structure usable for adding remote issue link in jira
