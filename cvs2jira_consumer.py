@@ -23,6 +23,13 @@ class CVS2JiraConsumer(fedmsg.consumers.FedmsgConsumer):
         self.jira = self.api.jira
 
     def consume(self, msg):
+        self.log.info("CVS[%(topic)s]: %(user)s: %(module)s: %(message)s" % {
+            'topic': msg['topic'],
+            'user': msg['body']['msg']['user'],
+            'module': msg['body']['msg']['module'],
+            'message': msg['body']['msg']['message'],
+        })
+
         message = msg['body']['msg']['message']
         issues = self.api.getMatchedIssues(message)
         if not issues:
