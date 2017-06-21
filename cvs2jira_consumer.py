@@ -21,6 +21,10 @@ class CVS2JiraConsumer(fedmsg.consumers.FedmsgConsumer):
             # easy way out
             return
 
+        jira = JiraClient().getClient()
+        issue = jira.issue('Z3E79A974A-4')
+
         from pprint import pprint
         for link in links:
             pprint(link)
+            jira.add_simple_link(issue, link)
