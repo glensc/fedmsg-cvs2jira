@@ -54,10 +54,9 @@ class JiraApi():
         links = []
 
         for f in commit['files']:
-            path = "%s/%s" % (commit['module'], f['filename'])
             link = {
                 "url": f['urls']['diff_url'],
-                "title": path,
+                "title": f['filename'],
                 "summary": commit['message'],
             }
             links.append(link)

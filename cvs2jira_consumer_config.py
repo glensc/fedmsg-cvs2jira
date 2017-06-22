@@ -9,6 +9,6 @@ just live in your cwd/pwd.
 """
 
 config = {
-    'cvs2jira_consumer_enabled': True,
-    'cvs2jira_topic' : 'net.ed.prod.cvs.commit*',
+    # whether the consumer is enabled
+    'cvs2jira.consumer.enabled': False,
 }
