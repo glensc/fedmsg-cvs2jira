@@ -1,7 +1,7 @@
 # FedMsg CVS to Jira Consumer
 
-This plugin consumes messages from fedmsg CVS channel and updates Jira
-accordingly.
+This plugin consumes messages by [FedMsg CVS Publisher](https://github.com/glensc/fedmsg-cvs)
+and adds remote links to matching JIRA issues.
 
 ## Development
 
